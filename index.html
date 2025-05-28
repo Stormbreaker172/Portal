@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso WiFi - Tiendas Neto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffa420;
+            text-align: center;
+            padding: 50px;
+        }
+        .portal {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        input[type="text"], input[type="email"], select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+        #mensaje-error {
+            color: red;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="portal">
+    <h2>Bienvenido al WiFi de Tienda Neto</h2>
+    <p>Por favor, ingrese su nombre, correo electrónico, género y edad para conectarse.</p>
+
+    <div id="mensaje-error"></div>
+
+    <form method="post" action="login.php" onsubmit="return validateForm()">
+        <input type="text" name="auth_user" id="nombre" placeholder="Nombre completo" required minlength="3" maxlength="50">
+        <input type="email" name="auth_email" id="correo" placeholder="Correo electrónico" required>
+
+        <select name="genero" id="genero" required>
+            <option value="">Seleccione su género</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Otro">Otro</option>
+        </select>
+
+        <select name="edad" id="edad" required>
+            <option value="">Seleccione su rango de edad</option>
+            <option value="Niños (0-12)">Niños (0 a 12 años)</option>
+            <option value="Jovenes (13-18)">Jóvenes de 13 a 18 años</option>
+            <option value="Adultos (19-64)">Adultos de 19 a 64 años</option>
+            <option value="Adultos mayores (65+)">Adultos mayores de 65 a 85 o más años</option>
+        </select>
+
+        <select name="motivo" id="motivo" required>
+            <option value="">¿Cuál es el motivo de la visita?</option>
+            <option value="Por los mejores precios">Por los mejores precios</option>
+            <option value="Por los mejores productos">Por los mejores productos</option>
+            <option value="Por la ubicacion de la tienda">Por la ubicacion de la tienda</option>
+            <option value="Por la atencion">Por la atención</option>
+            <option value="Por los horarios">Por los horarios</option>
+        </select>
+
+        <input type="hidden" name="mac" value="$PORTAL_MAC$">
+        <input type="hidden" name="redirurl" value="$PORTAL_REDIRURL$">
+        <input type="submit" name="accept" value="Conectarme">
+    </form>
+</div>
+
+<script>
+    function validateForm() {
+        const nombre = document.getElementById("nombre").value.trim();
+        const correo = document.getElementById("correo").value.trim();
+        const genero = document.getElementById("genero").value;
+        const edad = document.getElementById("edad").value;
+        const motivo = document.getElementById("motivo").value;
+        const mensajeError = document.getElementById("mensaje-error");
+
+        mensajeError.textContent = "";
+
+        if (!nombre || !correo || !genero || !edad || !motivo) {
+            mensajeError.textContent = "Por favor completa todos los campos.";
+            return false;
+        }
+
+        if (nombre.length < 3 || nombre.length > 50) {
+            mensajeError.textContent = "El nombre debe tener entre 3 y 50 caracteres.";
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
+</body>
+</html>
